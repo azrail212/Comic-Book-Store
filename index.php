@@ -8,7 +8,7 @@ require_once("rest/dao/ComicStoreDao.class.php");
 
 $dao = new ComicStoreDao();
 
-$op = $_REQUEST['op'];
+$op = $_REQUEST['op']; //example: http://localhost/comicstore/?op=get
 
 switch ($op) {
   case 'insert':
