@@ -47,6 +47,17 @@ class ComicStoreDao
   }
 
   /**
+   * Get individual comic by its id
+   */
+   public function get_by_id($id)
+   {
+     $stmt = $this->conn->prepare("SELECT * FROM comics where id=:id");
+     $stmt->execute(['id' => $id]);
+     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+     return reset($result); //move the array's pointer to the first element, so that we get it returned
+   }
+
+  /**
   * delete comic record from db
   */
   public function delete($id){

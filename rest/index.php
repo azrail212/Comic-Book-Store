@@ -13,12 +13,23 @@ require_once 'dao/ComicStoreDao.class.php';
  * Function to list all comics
  */
 
-Flight::route('/comics', function()
-{
-  $dao = new ComicStoreDao();
-  $comics = $dao->get_all();
-  Flight::json($comics);
-});
+  Flight::route('GET /comics', function()
+  {
+    $dao = new ComicStoreDao();
+    $comics = $dao->get_all();
+    Flight::json($comics);
+  });
+
+/**
+ * Get individual comic by id
+ */
+
+ Flight::route('GET /comics/@id', function($id)
+ {
+   $dao = new ComicStoreDao();
+   $comics = $dao->get_by_id($id);
+   Flight::json($comics);
+ });
 
 Flight::route('/', function()  //define what fucntion will happen on / route
 {
