@@ -6,6 +6,9 @@ error_reporting(E_ALL);
 require_once '../vendor/autoload.php'; // run autoloader
 require_once 'dao/ComicStoreDao.class.php';
 
+//we use this method so that we don't have to call dao each time we want to use it
+Flight::register('comicDao', 'ComicStoreDao');
+
 
 // Implementing CRUD operations, now through FlightPHP
 
@@ -15,8 +18,7 @@ require_once 'dao/ComicStoreDao.class.php';
 
   Flight::route('GET /comics', function()
   {
-    $dao = new ComicStoreDao();
-    $comics = $dao->get_all();
+    $comics = Flight::comicDao()->get_all();
     Flight::json($comics);
   });
 
@@ -26,10 +28,27 @@ require_once 'dao/ComicStoreDao.class.php';
 
  Flight::route('GET /comics/@id', function($id)
  {
-   $dao = new ComicStoreDao();
-   $comics = $dao->get_by_id($id);
-   Flight::json($comics);
+   $comic = Flight::comicDao()->get_by_id($id);
+   Flight::json($comic);
  });
+
+ /**
+  * add comic to db
+  */
+  Flight::route('POST /comics', function()
+  {
+    $request = Flight::request(); // encapsulates the HTTP request into a single object
+    $data = $request->data->getData();
+    Flight::comicDao()->add($data['name'], $data['description']);
+  });
+
+/**
+ * delete comic
+ */
+  Flight::route('DELETE /comics/@id', function($id){
+  Flight::comicDao()->delete($id);
+  Flight::json(["message" => "deleted"]);
+});
 
 Flight::route('/', function()  //define what fucntion will happen on / route
 {
