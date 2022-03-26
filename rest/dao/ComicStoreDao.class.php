@@ -29,11 +29,13 @@ class ComicStoreDao
   /**
   * method used to add comics to database
   */
-  public function add($name, $description)
+  public function add($comic)
   {
-    $stmt = $this->conn->prepare("INSERT INTO comics(name, description) VALUES
+    $stmt = $this->conn->prepare("INSERT INTO comics (name, description) VALUES
                                 (:name, :description)");
-    $stmt->execute(['name' => $name, 'description' => $description]);
+    $stmt->execute($comic);
+    $comic['id'] = $this->conn->lastInsertId();
+    return $comic;
   }
 
   /**

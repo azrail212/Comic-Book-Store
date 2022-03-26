@@ -18,8 +18,7 @@ Flight::register('comicDao', 'ComicStoreDao');
 
   Flight::route('GET /comics', function()
   {
-    $comics = Flight::comicDao()->get_all();
-    Flight::json($comics);
+    Flight::json(Flight::comicDao()->get_all());
   });
 
 /**
@@ -28,8 +27,7 @@ Flight::register('comicDao', 'ComicStoreDao');
 
  Flight::route('GET /comics/@id', function($id)
  {
-   $comic = Flight::comicDao()->get_by_id($id);
-   Flight::json($comic);
+   Flight::json(Flight::comicDao()->get_by_id($id));
  });
 
  /**
@@ -37,23 +35,17 @@ Flight::register('comicDao', 'ComicStoreDao');
   */
   Flight::route('POST /comics', function()
   {
-    $request = Flight::request(); // encapsulates the HTTP request into a single object
-    $data = $request->data->getData();
-    Flight::comicDao()->add($data['name'], $data['description']);
+    Flight::json(Flight::comicDao()->add(Flight::request()->data->getData()));
   });
 
 /**
  * delete comic
  */
-  Flight::route('DELETE /comics/@id', function($id){
-  Flight::comicDao()->delete($id);
-  Flight::json(["message" => "deleted"]);
-});
-
-Flight::route('/', function()  //define what fucntion will happen on / route
-{
-  echo "Hello from FlightPHP!";
-});
+  Flight::route('DELETE /comics/@id', function($id)
+  {
+    Flight::comicDao()->delete($id);
+    Flight::json(["message" => "deleted"]);
+  });
 
 Flight::start(); // start flight framework
 
