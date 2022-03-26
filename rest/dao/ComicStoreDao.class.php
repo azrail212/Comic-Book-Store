@@ -71,11 +71,12 @@ class ComicStoreDao
   /**
   * update comic record
   */
-  public function update($id, $name, $description)
+  public function update($comic)
   {
     $stmt = $this->conn->prepare("UPDATE comics SET name = :name,
-                                  description = :description where id = :id");
-    $stmt->execute(['id' => $id, 'name' => $name, 'description' => $description]);
+                                  description = :description WHERE id = :id");
+    $stmt->execute($comic);
+    return $comic;
   }
 }
  ?>

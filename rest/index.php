@@ -1,21 +1,20 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  error_reporting(E_ALL);
 
-require_once '../vendor/autoload.php'; // run autoloader
-require_once 'dao/ComicStoreDao.class.php';
+  require_once '../vendor/autoload.php'; // run autoloader
+  require_once 'dao/ComicStoreDao.class.php';
 
-//we use this method so that we don't have to call dao each time we want to use it
-Flight::register('comicDao', 'ComicStoreDao');
+  //we use this method so that we don't have to call dao each time we want to use it
+  Flight::register('comicDao', 'ComicStoreDao');
 
 
-// Implementing CRUD operations, now through FlightPHP
+  // Implementing CRUD operations, now through FlightPHP
 
-/**
+ /**
  * Function to list all comics
  */
-
   Flight::route('GET /comics', function()
   {
     Flight::json(Flight::comicDao()->get_all());
@@ -24,11 +23,10 @@ Flight::register('comicDao', 'ComicStoreDao');
 /**
  * Get individual comic by id
  */
-
- Flight::route('GET /comics/@id', function($id)
- {
+  Flight::route('GET /comics/@id', function($id)
+  {
    Flight::json(Flight::comicDao()->get_by_id($id));
- });
+  });
 
  /**
   * add comic to db
@@ -47,6 +45,16 @@ Flight::register('comicDao', 'ComicStoreDao');
     Flight::json(["message" => "deleted"]);
   });
 
-Flight::start(); // start flight framework
+  /**
+   * update comic by id
+   */
+  Flight::route('PUT /comics/@id', function($id)
+  {
+    $data = Flight::request()->data->getData();
+    $data['id'] = $id;
+    Flight::json(Flight::comicDao()->update($data));
+  });
+
+  Flight::start(); // start flight framework
 
 ?>
