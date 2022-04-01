@@ -74,7 +74,7 @@ class ComicStoreDao
   public function update($comic)
   {
     $stmt = $this->conn->prepare("UPDATE comics SET name = :name,
-                                  description = :description WHERE id = :id");
+                                  description = :description, genre = :genre, price = :price WHERE id = :id");
     $stmt->execute($comic);
     return $comic;
   }
