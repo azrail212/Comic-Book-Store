@@ -254,6 +254,7 @@
     console.log(comic);
   }
 
+<<<<<<< HEAD
   function deleteComic(id) {
     $('.edit-comic-button').attr('disabled', true);
     $.ajax({
@@ -301,4 +302,37 @@
     }*/
 </script>
 
+=======
+  /*
+    function addComic() {
+      var comic = {};
+
+      comic.name = $('#add_name').val();
+      comic.description = $('#add_description').val();
+      comic.genre = $('#add_genre').val();
+      comic.price = $('#add_price').val();
+
+      $.ajax({
+        url: 'rest/comics/',
+        type: 'POST',
+        data: JSON.stringify(comic),
+        contentType: "application/json",
+        dataType: "json",
+        success: function(result) {
+          $('.add-comic-button').attr('disabled', false);
+          $("#addComicModal").modal("hide");
+          $("#comic-list").html(`
+            <div class="spinner-grow text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <h3>Loading...</h3>`);
+          getComics();
+          console.log(result);
+          $("#addComicModal").modal("hide");
+        }
+      });
+    }*/
+</script>
+
+>>>>>>> e9028b8518dd3c8a3f191204e81016732cbe63ca
 </html>
