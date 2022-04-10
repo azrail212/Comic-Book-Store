@@ -5,6 +5,12 @@
   <meta charset="utf-8">
   <title>Comicbook Store</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -65,10 +71,102 @@
       </div>
   </main>
 </body>
+
 <script src="js/jquery-3.6.0.min.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/jquery.validate.min.js"></script>
+
+
+<!-- Update comic Modal -->
+<div class="modal fade" id="updateComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateComicModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input id="id" type="hidden" />
+        <input id="update_name" type="text" />
+        <input id="update_description" type="textarea" />
+        <input id="update_genre" type="text" />
+        <input id="update_price" type="number" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary save-comic-change-button" onclick="updateComic()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Comic modal -->
+<div class="modal fade" id="addComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="addComicForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addComicModalLabel">Add a new comic</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="inputName">Name</label>
+            <input name="add_name" type="text" class="form-control required" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <label for="inputDescription">Description</label>
+            <textarea name="add_description" class="form-control required" placeholder="Comic description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="chooseGenre">Comic genre</label>
+            <select name="add_genre" class="form-control required">
+              <option disabled selected value> -- select an option -- </option>
+              <option>Scifi</option>
+              <option>Horror</option>
+              <option>Superhero</option>
+              <option>Marvel</option>
+              <option>Fantasy</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="inputPrice">Price</label>
+            <input name="add_price" type="text" class="form-control required" placeholder="Comic price">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script>
-  //ajax get request from the api
+  $('#addComicForm').validate({
+    submitHandler: function(form) {
+      var comic = Object.fromEntries((new FormData(form)).entries());
+      $.ajax({
+        url: 'rest/comics/',
+        type: 'POST',
+        data: JSON.stringify(comic),
+        contentType: "application/json",
+        dataType: "json",
+        success: function(result) {
+          $("#comic-list").html(`
+          <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <h3>Loading...</h3>`);
+          getComics();
+          console.log(result);
+          $("#addComicModal").modal("hide");
+        }
+      });
+    }
+  });
+
   getComics();
 
   function getComics() {
@@ -94,10 +192,11 @@
                     <p>Genre: <span class="fw-bolder">` + data[i].genre + `</span></p>
                     <p>Price: <span class="fw-bolder">` + data[i].price + '$' + `</span></p>
                   </div>
-                    <button type="button" class="btn btn-sm btn-outline-secondary edit-comic-button" onclick="showModal(` + data[i].id + `)">
-                      Edit
-                    </button>
                 </div>
+                <div class="btn-group" role="group">
+                 <button type="button" class="btn btn-primary edit-comic-button" onclick="showModal(` + data[i].id + `)">Edit</button>
+                 <button type="button" class="btn btn-danger edit-comic-button" onclick="deleteComic(` + data[i].id + `)">Delete</button>
+               </div>
               </div>
             </div>
           </div> `;
@@ -124,7 +223,7 @@
     });
   }
 
-  function saveComicChange() {
+  function updateComic() {
     $('.save-comic-change-button').attr('disabled', true);
     var comic = {};
 
@@ -155,82 +254,51 @@
     console.log(comic);
   }
 
-  function addComic(){
-    console.log("Saved todo");
-
-    var comic = {};
-
-    comic.name = $('#add_name').val();
-    comic.description = $('#add_description').val();
-    comic.genre = $('#add_genre').val();
-    comic.price = $('#add_price').val();
-
+  function deleteComic(id) {
+    $('.edit-comic-button').attr('disabled', true);
     $.ajax({
-      url: 'rest/comics/',
-      type: 'POST',
-      data: JSON.stringify(comic),
-      contentType: "application/json",
-      dataType: "json",
+      url: 'rest/comics/' + id,
+      type: 'DELETE',
       success: function(result) {
-        $('.add-comic-button').attr('disabled', false);
-        $("#addComicModal").modal("hide");
         $("#comic-list").html(`
           <div class="spinner-grow text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
           <h3>Loading...</h3>`);
         getComics();
-        console.log(result);
-
       }
     });
   }
 
+  /*
+    function addComic() {
+      var comic = {};
+
+      comic.name = $('#add_name').val();
+      comic.description = $('#add_description').val();
+      comic.genre = $('#add_genre').val();
+      comic.price = $('#add_price').val();
+
+      $.ajax({
+        url: 'rest/comics/',
+        type: 'POST',
+        data: JSON.stringify(comic),
+        contentType: "application/json",
+        dataType: "json",
+        success: function(result) {
+          $('.add-comic-button').attr('disabled', false);
+          $("#addComicModal").modal("hide");
+          $("#comic-list").html(`
+            <div class="spinner-grow text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <h3>Loading...</h3>`);
+          getComics();
+          console.log(result);
+          $("#addComicModal").modal("hide");
+        }
+      });
+    }*/
 </script>
-
-<!-- Update comic Modal -->
-<div class="modal fade" id="updateComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateComicModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="updateComicModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input id="id" type="hidden" />
-        <input id="update_name" type="text" />
-        <input id="update_description" type="textarea" />
-        <input id="update_genre" type="text" />
-        <input id="update_price" type="number" />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save-comic-change-button" onclick="saveComicChange()">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Add Comic modal -->
-<div class="modal fade" id="addComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addComicModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addComicModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input id="add_name" type="text" />
-        <input id="add_description" type="textarea" />
-        <input id="add_genre" type="text" />
-        <input id="add_price" type="number" />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save-comic-button" onclick="addComic()">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 </html>
