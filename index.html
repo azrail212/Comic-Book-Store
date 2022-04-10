@@ -39,13 +39,13 @@
 
   <main>
 
-    <section class="containter-fluid bg-img cover-background py-5 text-center bg-image" data-background="assets/bg_comics.jpg" style="background: url('assets/bg_comics.jpg') no-repeat scroll center; background-size:cover;">
-      <div class="row py-lg-5">
+    <section class="containter-fluid cover-background py-5 text-center bg-image" data-background="assets/bg_comics.jpg" style="background: url('assets/bg_comics.jpg') no-repeat fixed center; height: 500px; background-size:cover;">
+      <div class="row py-lg-5 align-items-center">
         <div class="col-lg-6 col-md-8 mx-auto">
           <h1 class="fw-light" style="color:#ffffff;">Comicbook Store</h1>
-          <p class="lead" style="color:#F7F7F7">Welcome to the admin front page, where you can add, edit and remove comic entries. </p>
+          <p class="lead" style="color:#F7F7F7;">Welcome to the admin front page, where you can add, edit and remove comic entries. </p>
           <p>
-            <a href="#" class="btn btn-primary my-2 btn-lg">Add comic</a>
+            <a href="#" class="btn btn-primary my-2 btn-lg" data-bs-toggle="modal" data-bs-target="#addComicModal">Add comic</a>
             <a href="#" class="btn btn-secondary my-2 btn-lg">Log out</a>
           </p>
         </div>
@@ -108,32 +108,30 @@
   }
 
   function showModal(id) {
-
-
     $.get('rest/comics/' + id, function(data) {
       $('.edit-comic-button').attr('disabled', true);
       console.log(data);
 
       $("#id").val(data.id);
-      $("#name").val(data.name);
-      $("#description").val(data.description);
-      $("#genre").val(data.genre);
-      $("#price").val(data.price);
+      $("#update_name").val(data.name);
+      $("#update_description").val(data.description);
+      $("#update_genre").val(data.genre);
+      $("#update_price").val(data.price);
 
-      $("#viewDetailsModal").modal("show");
+      $("#updateComicModal").modal("show");
 
       $('.edit-comic-button').attr('disabled', false);
-    })
+    });
   }
 
   function saveComicChange() {
     $('.save-comic-change-button').attr('disabled', true);
     var comic = {};
 
-    comic.name = $('#name').val();
-    comic.description = $('#description').val();
-    comic.genre = $('#genre').val();
-    comic.price = $('#price').val();
+    comic.name = $('#update_name').val();
+    comic.description = $('#update_description').val();
+    comic.genre = $('#update_genre').val();
+    comic.price = $('#update_price').val();
 
     $.ajax({
       url: 'rest/comics/' + $('#id').val(),
@@ -142,7 +140,7 @@
       contentType: "application/json",
       dataType: "json",
       success: function(result) {
-        $("#viewDetailsModal").modal("hide");
+        $("#updateComicModal").modal("hide");
         $('.save-comic-change-button').attr('disabled', false);
 
         $("#comic-list").html(`
@@ -156,26 +154,80 @@
     });
     console.log(comic);
   }
+
+  function addComic(){
+    console.log("Saved todo");
+
+    var comic = {};
+
+    comic.name = $('#add_name').val();
+    comic.description = $('#add_description').val();
+    comic.genre = $('#add_genre').val();
+    comic.price = $('#add_price').val();
+
+    $.ajax({
+      url: 'rest/comics/',
+      type: 'POST',
+      data: JSON.stringify(comic),
+      contentType: "application/json",
+      dataType: "json",
+      success: function(result) {
+        $('.add-comic-button').attr('disabled', false);
+        $("#addComicModal").modal("hide");
+        $("#comic-list").html(`
+          <div class="spinner-grow text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <h3>Loading...</h3>`);
+        getComics();
+        console.log(result);
+
+      }
+    });
+  }
+
 </script>
 
-<!-- Modal -->
-<div class="modal fade" id="viewDetailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="viewDetailsLabel" aria-hidden="true">
+<!-- Update comic Modal -->
+<div class="modal fade" id="updateComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateComicModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="viewDetailsLabel">Modal title</h5>
+        <h5 class="modal-title" id="updateComicModalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <input id="id" type="hidden" />
-        <input id="name" type="text" />
-        <input id="description" type="text" />
-        <input id="genre" type="text" />
-        <input id="price" type="text" />
+        <input id="update_name" type="text" />
+        <input id="update_description" type="textarea" />
+        <input id="update_genre" type="text" />
+        <input id="update_price" type="number" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary save-comic-change-button" onclick="saveComicChange()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Comic modal -->
+<div class="modal fade" id="addComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addComicModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addComicModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input id="add_name" type="text" />
+        <input id="add_description" type="textarea" />
+        <input id="add_genre" type="text" />
+        <input id="add_price" type="number" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary save-comic-button" onclick="addComic()">Save changes</button>
       </div>
     </div>
   </div>
