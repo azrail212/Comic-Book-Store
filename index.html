@@ -39,14 +39,14 @@
 
   <main>
 
-    <section class="py-5 text-center container">
+    <section class="containter-fluid bg-img cover-background py-5 text-center bg-image" data-background="assets/bg_comics.jpg" style="background: url('assets/bg_comics.jpg') no-repeat scroll center; background-size:cover;">
       <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="fw-light">Comicbook Store</h1>
-          <p class="lead text-muted">Welcome to the admin front page, where you can add, edit and remove comic entries. </p>
+          <h1 class="fw-light" style="color:#ffffff;">Comicbook Store</h1>
+          <p class="lead" style="color:#F7F7F7">Welcome to the admin front page, where you can add, edit and remove comic entries. </p>
           <p>
-            <a href="#" class="btn btn-primary my-2">Add comic</a>
-            <a href="#" class="btn btn-secondary my-2">Log out</a>
+            <a href="#" class="btn btn-primary my-2 btn-lg">Add comic</a>
+            <a href="#" class="btn btn-secondary my-2 btn-lg">Log out</a>
           </p>
         </div>
       </div>
@@ -110,8 +110,7 @@
   function showModal(id) {
 
 
-    $.get('rest/comics/' + id, function(data)
-    {
+    $.get('rest/comics/' + id, function(data) {
       $('.edit-comic-button').attr('disabled', true);
       console.log(data);
 
