@@ -76,6 +76,9 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 
+<script src="js/comic-service.js"></script>
+
+
 
 <!-- Update comic Modal -->
 <div class="modal fade" id="updateComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
@@ -94,7 +97,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save-comic-change-button" onclick="updateComic()">Save changes</button>
+        <button type="button" class="btn btn-primary save-comic-change-button" onclick="ComicService.update()">Save changes</button>
       </div>
     </div>
   </div>
@@ -144,161 +147,6 @@
 </div>
 
 <script>
-  $('#addComicForm').validate({
-    submitHandler: function(form) {
-      var comic = Object.fromEntries((new FormData(form)).entries());
-      $.ajax({
-        url: 'rest/comics/',
-        type: 'POST',
-        data: JSON.stringify(comic),
-        contentType: "application/json",
-        dataType: "json",
-        success: function(result) {
-          $("#comic-list").html(`
-          <div class="spinner-grow text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <h3>Loading...</h3>`);
-          getComics();
-          console.log(result);
-          $("#addComicModal").modal("hide");
-        }
-      });
-    }
-  });
-
-  getComics();
-
-  function getComics() {
-    $.get("rest/comics", function(data) {
-
-      $("#comic-list").html("");
-
-      var html = "";
-      for (let i = 0; i < data.length; i++) {
-        html += `
-          <div class="col">
-            <div class="card shadow-sm">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>Placeholder</title>
-                <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-              </svg>
-
-              <div class="card-body">
-                <h2>` + data[i].name + `</h2>
-                <p class="card-text">` + data[i].description + `</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div>
-                    <p>Genre: <span class="fw-bolder">` + data[i].genre + `</span></p>
-                    <p>Price: <span class="fw-bolder">` + data[i].price + '$' + `</span></p>
-                  </div>
-                </div>
-                <div class="btn-group" role="group">
-                 <button type="button" class="btn btn-primary edit-comic-button" onclick="showModal(` + data[i].id + `)">Edit</button>
-                 <button type="button" class="btn btn-danger edit-comic-button" onclick="deleteComic(` + data[i].id + `)">Delete</button>
-               </div>
-              </div>
-            </div>
-          </div> `;
-      }
-      $("#comic-list").html(html);
-      console.log(data);
-    });
-  }
-
-  function showModal(id) {
-    $.get('rest/comics/' + id, function(data) {
-      $('.edit-comic-button').attr('disabled', true);
-      console.log(data);
-
-      $("#id").val(data.id);
-      $("#update_name").val(data.name);
-      $("#update_description").val(data.description);
-      $("#update_genre").val(data.genre);
-      $("#update_price").val(data.price);
-
-      $("#updateComicModal").modal("show");
-
-      $('.edit-comic-button').attr('disabled', false);
-    });
-  }
-
-  function updateComic() {
-    $('.save-comic-change-button').attr('disabled', true);
-    var comic = {};
-
-    comic.name = $('#update_name').val();
-    comic.description = $('#update_description').val();
-    comic.genre = $('#update_genre').val();
-    comic.price = $('#update_price').val();
-
-    $.ajax({
-      url: 'rest/comics/' + $('#id').val(),
-      type: 'PUT',
-      data: JSON.stringify(comic),
-      contentType: "application/json",
-      dataType: "json",
-      success: function(result) {
-        $("#updateComicModal").modal("hide");
-        $('.save-comic-change-button').attr('disabled', false);
-
-        $("#comic-list").html(`
-          <div class="spinner-grow text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <h3>Loading...</h3>`);
-        getComics();
-        console.log(result);
-      }
-    });
-    console.log(comic);
-  }
-
-  function deleteComic(id) {
-    $('.edit-comic-button').attr('disabled', true);
-    $.ajax({
-      url: 'rest/comics/' + id,
-      type: 'DELETE',
-      success: function(result) {
-        $("#comic-list").html(`
-          <div class="spinner-grow text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <h3>Loading...</h3>`);
-        getComics();
-      }
-    });
-  }
-
-  /*
-    function addComic() {
-      var comic = {};
-
-      comic.name = $('#add_name').val();
-      comic.description = $('#add_description').val();
-      comic.genre = $('#add_genre').val();
-      comic.price = $('#add_price').val();
-
-      $.ajax({
-        url: 'rest/comics/',
-        type: 'POST',
-        data: JSON.stringify(comic),
-        contentType: "application/json",
-        dataType: "json",
-        success: function(result) {
-          $('.add-comic-button').attr('disabled', false);
-          $("#addComicModal").modal("hide");
-          $("#comic-list").html(`
-            <div class="spinner-grow text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <h3>Loading...</h3>`);
-          getComics();
-          console.log(result);
-          $("#addComicModal").modal("hide");
-        }
-      });
-    }*/
+  ComicService.init();
 </script>
-
 </html>
