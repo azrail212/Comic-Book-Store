@@ -31,8 +31,8 @@ class ComicStoreDao
   */
   public function add($comic)
   {
-    $stmt = $this->conn->prepare("INSERT INTO comics (name, description, genre, price) VALUES
-                                (:name, :description, :genre, :price)");
+    $stmt = $this->conn->prepare("INSERT INTO comics (name, description, category_id, price) VALUES
+                                (:name, :description, :category_id, :price)");
     $stmt->execute($comic);
     $comic['id'] = $this->conn->lastInsertId();
     return $comic;
@@ -74,7 +74,7 @@ class ComicStoreDao
   public function update($comic)
   {
     $stmt = $this->conn->prepare("UPDATE comics SET name = :name,
-                                  description = :description, genre = :genre, price = :price WHERE id = :id");
+                                  description = :description, category_id = :category_id, price = :price WHERE id = :id");
     $stmt->execute($comic);
     return $comic;
   }
