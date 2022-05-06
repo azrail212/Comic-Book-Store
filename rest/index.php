@@ -4,10 +4,10 @@
   error_reporting(E_ALL);
 
   require_once '../vendor/autoload.php'; // run autoloader
-  require_once 'dao/ComicStoreDao.class.php';
+  require_once 'dao/ComicDao.class.php';
 
   //we use this method so that we don't have to call dao each time we want to use it
-  Flight::register('comicDao', 'ComicStoreDao');
+  Flight::register('comicDao', 'ComicDao');
 
 
   // Implementing CRUD operations, now through FlightPHP
