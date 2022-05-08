@@ -51,7 +51,7 @@
           <h1 class="fw-light" style="color:#ffffff;">Comicbook Store</h1>
           <p class="lead" style="color:#F7F7F7;">Welcome to the admin front page, where you can add, edit and remove comic entries. </p>
           <p>
-            <a href="#" class="btn btn-primary my-2 btn-lg" data-bs-toggle="modal" data-bs-target="#addComicModal">Add comic</a>
+            <a href="#" class="btn btn-primary my-2 btn-lg" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add category</a>
             <a href="#" class="btn btn-secondary my-2 btn-lg">Log out</a>
           </p>
         </div>
@@ -61,7 +61,7 @@
     <div class="album py-5 bg-light">
       <div class="container">
 
-        <div id="comic-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div id="category-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <div class="spinner-grow text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
@@ -76,40 +76,40 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 
-<script src="js/comic-service.js"></script>
+<!--<script src="js/comic-service.js"></script>-->
+<script src="js/category-service.js"></script>
 
 
 
 <!-- Update comic Modal -->
-<div class="modal fade" id="updateComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+<div class="modal fade" id="updateCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updateComicModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="updateCategoryModalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <input id="id" type="hidden" />
         <input id="update_name" type="text" />
         <input id="update_description" type="textarea" />
-        <input id="update_category_id" type="text" />
-        <input id="update_price" type="number" />
+        <input id="update_agegroup" type="text" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save-comic-change-button" onclick="ComicService.update()">Save changes</button>
+        <button type="button" class="btn btn-primary save-category-change-button" onclick="CategoryService.update()">Save changes</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Add Comic modal -->
-<div class="modal fade" id="addComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="addCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form id="addComicForm">
+      <form id="addCategoryForm">
         <div class="modal-header">
-          <h5 class="modal-title" id="addComicModalLabel">Add a new comic</h5>
+          <h5 class="modal-title" id="addCategoryModalLabel">Add a new category</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -119,22 +119,18 @@
           </div>
           <div class="form-group">
             <label for="inputDescription">Description</label>
-            <textarea name="description" class="form-control required" placeholder="Comic description" rows="3"></textarea>
+            <textarea name="description" class="form-control required" placeholder="Category description" rows="3"></textarea>
           </div>
           <div class="form-group">
-            <label for="choose_category_id">Comic category</label>
-            <select name="category_id" class="form-control required">
+            <label for="choose_agegroup">Agegroup</label>
+            <select name="agegroup" class="form-control required">
               <option disabled selected value> -- select an option -- </option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              <option>6-9</option>
+              <option>9-12</option>
+              <option>12+</option>
+              <option>14+</option>
+              <option>16+</option>
             </select>
-          </div>
-          <div class="form-group">
-            <label for="inputPrice">Price</label>
-            <input name="price" type="text" class="form-control required" placeholder="Comic price">
           </div>
         </div>
         <div class="modal-footer">
@@ -147,6 +143,6 @@
 </div>
 
 <script>
-  ComicService.init();
+  CategoryService.init();
 </script>
 </html>
