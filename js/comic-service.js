@@ -29,7 +29,7 @@ var ComicService = {
                   <p class="card-text">` + data[i].description + `</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
-                      <p>Genre: <span class="fw-bolder">` + data[i].genre + `</span></p>
+                      <p>Category: <span class="fw-bolder">` + data[i].category_id + `</span></p>
                       <p>Price: <span class="fw-bolder">` + data[i].price + '$' + `</span></p>
                     </div>
                   </div>
@@ -53,7 +53,7 @@ var ComicService = {
         $("#id").val(data.id);
         $("#update_name").val(data.name);
         $("#update_description").val(data.description);
-        $("#update_genre").val(data.genre);
+        $("#update_category_id").val(data.category_id);
         $("#update_price").val(data.price);
 
         $("#updateComicModal").modal("show");
@@ -86,7 +86,7 @@ var ComicService = {
       var comic = {};
       comic.name = $('#update_name').val();
       comic.description = $('#update_description').val();
-      comic.genre = $('#update_genre').val();
+      comic.category_id = $('#update_category_id').val();
       comic.price = $('#update_price').val();
       $.ajax({
         url: 'rest/comics/' + $('#id').val(),
