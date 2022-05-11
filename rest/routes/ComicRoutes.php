@@ -41,7 +41,7 @@
   {
     $data = Flight::request()->data->getData();
     $data['id'] = $id;
-    Flight::json(Flight::comicService()->update($data));
+    Flight::json(Flight::comicService()->update($id, $data));
   });
 
   ?>

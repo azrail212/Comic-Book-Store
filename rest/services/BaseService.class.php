@@ -20,8 +20,8 @@ abstract class BaseService {
     return $this->dao->add($entity);
   }
 
-  public function update($entity){
-    return $this->dao->update($entity);
+  public function update($id, $entity){
+    return $this->dao->update($id, $entity);
   }
 
   public function delete($id){

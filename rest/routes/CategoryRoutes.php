@@ -40,7 +40,7 @@
   {
     $data = Flight::request()->data->getData();
     $data['id'] = $id;
-    Flight::json(Flight::categoryService()->update($data));
+    Flight::json(Flight::categoryService()->update($id, $data));
   });
 
  ?>
