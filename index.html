@@ -49,7 +49,7 @@
       <div class="row py-lg-5 align-items-center">
         <div class="col-lg-6 col-md-8 mx-auto">
           <h1 class="fw-light" style="color:#ffffff;">Comicbook Store</h1>
-          <p class="lead" style="color:#F7F7F7;">Welcome to the admin front page, where you can add, edit and remove comic entries. </p>
+          <p class="lead" style="color:#F7F7F7;">Welcome to the admin page, where you can add, edit and remove comic entries. </p>
           <p>
             <a href="#" class="btn btn-primary my-2 btn-lg" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add category</a>
             <a href="#" class="btn btn-secondary my-2 btn-lg">Log out</a>
@@ -60,14 +60,12 @@
 
     <div class="album py-5 bg-light">
       <div class="container">
-
         <div id="category-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <div class="spinner-grow text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
           <h3>Loading...</h3>
         </div>
-
       </div>
   </main>
 </body>
@@ -85,20 +83,38 @@
 <div class="modal fade" id="updateCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="updateCategoryModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input id="id" type="hidden" />
-        <input id="update_name" type="text" />
-        <input id="update_description" type="textarea" />
-        <input id="update_agegroup" type="text" />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save-category-change-button" onclick="CategoryService.update()">Save changes</button>
-      </div>
+      <form id="updateCategoryForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateCategoryModalLabel">Update a category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input id="id" type="hidden" />
+            <label for="inputName">Name</label>
+            <input id="update_name" type="text" class="form-control required" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <label for="inputDescription">Description</label>
+            <textarea id="update_description" class="form-control required" placeholder="Category description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="choose_agegroup">Agegroup</label>
+            <select id="update_agegroup" class="form-control required">
+              <option disabled selected value> -- select an option -- </option>
+              <option>6-9</option>
+              <option>9-12</option>
+              <option>12+</option>
+              <option>14+</option>
+              <option>16+</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>
+          <button type="submit" class="btn btn-primary save-category-change-button" onclick="CategoryService.update()">Save changes</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
