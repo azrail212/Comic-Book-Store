@@ -16,6 +16,10 @@
    Flight::json(Flight::categoryService()->get_by_id($id));
   });
 
+  Flight::route('GET /categories/@id/comics', function($id){
+    Flight::json(Flight::comicService()->get_comics_by_category_id($id));
+  });
+
  /**
   * add category to db
   */
