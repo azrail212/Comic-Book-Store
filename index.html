@@ -58,8 +58,9 @@
       </div>
     </section>
 
-    <div class="album py-5 bg-light">
+    <div class="album py-5 bg-light" style="padding:50px;">
       <div class="container">
+        <h1 class="fw-heavy" style="color:#000000; padding-bottom: 30px;">Categories</h1>
         <div id="category-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <div class="spinner-grow text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -74,7 +75,7 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 
-<!--<script src="js/comic-service.js"></script>-->
+<script src="js/comic-service.js"></script>
 <script src="js/category-service.js"></script>
 
 
@@ -158,45 +159,40 @@
   </div>
 </div>
 
+<!-- Manage comics -->
 <div class="modal fade" id="comicsModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Comics in category</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header">
+        <h5 class="modal-title">Recently added comics in category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="category-comics" class="list-group">
         </div>
-        <div class="modal-body">
-            <input name="category_id" type="hidden" />
-
-            <div class="list-group">
-              <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">List group item heading</h4>
-                <p class="list-group-item-text">asdadas</p>
-              </a>
-              <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">List group item heading</h4>
-                <p class="list-group-item-text">asdaasd</p>
-              </a>
-              <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">List group item heading</h4>
-                <p class="list-group-item-text">asdasda</p>
-              </a>
-              <div class="list-group-item">
-                <h4 class="list-group-item-heading">List group item heading</h4>
-                <p class="list-group-item-text">kkkkkk</p>
-                <button class="btn btn-sm float-end">delete</button>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Description</label>
-              <input name="description" type="text" class="form-control required" placeholder="Enter description">
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Submit</button>
-        </div>
+      </div>
+      <div class="row">
+         <form class="form">
+           <input name="category_id" type="hidden" />
+           <div class="row" style="padding: 20px;">
+             <div class="col-sm-4">
+               <input name="name" type="text" class="form-control" placeholder="Comic name">
+             </div>
+             <div class="col-sm-4">
+               <input name="description" type="text" class="form-control" placeholder="Description">
+             </div>
+             <div class="col-sm-4">
+               <input name="price" type="text" class="form-control" placeholder="Price">
+             </div>
+             <div class="col-sm-4">
+               <button type="submit" class="btn btn-primary mb-2">Add</button>
+             </div>
+           </div>
+         </form>
+       </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" name="view-all-comics" onclick="ComicService.get_comics_by_category_id_new_page()">View all</button>
+      </div>
       </form>
     </div>
   </div>
@@ -206,4 +202,5 @@
 <script>
   CategoryService.init();
 </script>
+
 </html>

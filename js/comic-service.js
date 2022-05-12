@@ -45,6 +45,57 @@ var ComicService = {
       });
     },
 
+    get_comics_by_category_id_modal: function(category_id){
+    $("#category-comics").html('loading ...');
+    $.get('rest/categories/'+ category_id +'/comics', function(data) {
+      var html = "";
+      for(let i = 0; i < data.length; i++){
+        html +=
+        `<div style="border:1px solid darkgrey; padding:15px; margin:5px;">
+              <p class="fw-bolder">` + data[i].name + `</p>
+              <p class="card-text">` + data[i].description + `</p>
+        </div>`;
+      }
+      $("#category-comics").html(html);
+    });
+    $("#comicsModal").modal('show');
+  },
+
+  get_comics_by_category_id_new_page: function(category_id){
+  $("#category-comics").html('loading ...');
+  $.get('rest/categories/'+ category_id +'/comics', function(data) {
+    var html = "";
+    for(let i = 0; i < data.length; i++){
+      html +=
+      `<div class="col">
+        <div class="card shadow-sm">
+          <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+          </svg>
+
+          <div class="card-body">
+            <h2>` + data[i].name + `</h2>
+            <p class="card-text">` + data[i].description + `</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <p>Category: <span class="fw-bolder">` + data[i].category_id + `</span></p>
+                <p>Price: <span class="fw-bolder">` + data[i].price + '$' + `</span></p>
+              </div>
+            </div>
+            <div class="btn-group" role="group">
+             <button type="button" class="btn btn-primary edit-comic-button" onclick="ComicService.get(` + data[i].id + `)">Edit</button>
+             <button type="button" class="btn btn-danger edit-comic-button" onclick="ComicService.delete(` + data[i].id + `)">Delete</button>
+           </div>
+          </div>
+        </div>
+      </div> `;
+    }
+  });
+  window.open("rest/categories/"+ category_id +"/comics");
+
+},
+
     get: function(id){
       $.get('rest/comics/' + id, function(data) {
         $('.edit-comic-button').attr('disabled', true);
