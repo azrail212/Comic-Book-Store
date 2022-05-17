@@ -28,7 +28,7 @@ var CategoryService = {
                   </div>
                   <div class="btn-group" role="group">
                    <button type="button" class="btn btn-primary edit-category-button" onclick="CategoryService.get(` + data[i].id + `)">Edit</button>
-                   <button type="button" class="btn btn-success note-button" onclick="ComicService.get_comics_by_category_id(`+data[i].id+`)">Manage</button>
+                   <button type="button" class="btn btn-success note-button" onclick="ComicService.get_comics_by_category_id(`+data[i].id+`)">View comics</button>
                    <button type="button" class="btn btn-danger edit-category-button" onclick="CategoryService.delete(` + data[i].id + `)">Delete</button>
                  </div>
                 </div>
@@ -37,6 +37,21 @@ var CategoryService = {
       $("#category-list").html(html);
     });
   },
+
+  category_names_list: function() {
+    $.get("rest/categories/", function(data) {
+      $("#category-names-list").html("");
+
+      var html = `<select id="category_id" name="category_id" class="form-control required">`;
+      for (let i = 0; i < data.length; i++) {
+        html += `
+        <option>` + data[i].name + `</option>
+                  `;
+      }
+      $("#category-names-list").html(html);
+    });
+  },
+
 
   get: function(id) {
     $.get('rest/categories/' + id, function(data) {

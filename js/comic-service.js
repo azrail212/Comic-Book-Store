@@ -25,8 +25,8 @@ var ComicService = {
                 </svg>
 
                 <div class="card-body">
-                  <h2>` + data[i].name + `</h2>
-                  <p class="card-text">` + data[i].description + `</p>
+                  <h2>` + data[i].comic_name + `</h2>
+                  <p class="card-text">` + data[i].comic_description + `</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
                       <p>Category: <span class="fw-bolder">` + data[i].category_id + `</span></p>
@@ -47,16 +47,15 @@ var ComicService = {
 
   get_comics_by_category_id: function(category_id){
     $("#comic-list").html(`<div class="spinner-grow text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <h3>Loading...</h3>`);
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <h3>Loading...</h3>`);
   $.get('rest/categories/'+ category_id +'/comics', function(data) {
     var html = "";
 
     for(let i = 0; i < data.length; i++){
       html +=
-      `<h2>Comics in the selected category</h2>
-        <div class="col">
+      `<div class="col">
         <div class="card shadow-sm">
           <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
             <title>Placeholder</title>
@@ -64,8 +63,8 @@ var ComicService = {
           </svg>
 
           <div class="card-body">
-            <h2>` + data[i].name + `</h2>
-            <p class="card-text">` + data[i].description + `</p>
+            <h2>` + data[i].comic_name + `</h2>
+            <p class="card-text">` + data[i].comic_description + `</p>
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <p>Category: <span class="fw-bolder">` + data[i].category_id + `</span></p>
@@ -80,7 +79,11 @@ var ComicService = {
         </div>
         </div>`;
     }
-    $("#comic-list").html(html);
+    $("#comic-list").html(
+      `<div>
+      <a href="#" class="btn btn-primary my-2 btn-lg" data-bs-toggle="modal" data-bs-target="#addComicModal">Add comic</a>`
+      +html+
+      `</div>`);
   });
 
 },
@@ -91,8 +94,8 @@ var ComicService = {
         console.log(data);
 
         $("#id").val(data.id);
-        $("#update_name").val(data.name);
-        $("#update_description").val(data.description);
+        $("#update_name").val(data.comic_name);
+        $("#update_description").val(data.comic_description);
         $("#update_category_id").val(data.category_id);
         $("#update_price").val(data.price);
 
