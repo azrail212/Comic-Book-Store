@@ -58,7 +58,7 @@
       </div>
     </section>
 
-    <div class="album py-5 bg-light" style="padding:50px;">
+    <div  class="album py-5 bg-light" style="padding:50px;">
       <div class="container">
         <h1 class="fw-heavy" style="color:#000000; padding-bottom: 30px;">Categories</h1>
         <div id="category-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -68,6 +68,22 @@
           <h3>Loading...</h3>
         </div>
       </div>
+    </div>
+
+    <div  class="album py-5 bg-light" style="padding:50px;">
+      <div class="container">
+        <div id="comic-list">
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
   </main>
 </body>
 
@@ -158,46 +174,6 @@
     </div>
   </div>
 </div>
-
-<!-- Manage comics -->
-<div class="modal fade" id="comicsModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Recently added comics in category</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div id="category-comics" class="list-group">
-        </div>
-      </div>
-      <div class="row">
-         <form class="form">
-           <input name="category_id" type="hidden" />
-           <div class="row" style="padding: 20px;">
-             <div class="col-sm-4">
-               <input name="name" type="text" class="form-control" placeholder="Comic name">
-             </div>
-             <div class="col-sm-4">
-               <input name="description" type="text" class="form-control" placeholder="Description">
-             </div>
-             <div class="col-sm-4">
-               <input name="price" type="text" class="form-control" placeholder="Price">
-             </div>
-             <div class="col-sm-4">
-               <button type="submit" class="btn btn-primary mb-2">Add</button>
-             </div>
-           </div>
-         </form>
-       </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" name="view-all-comics" onclick="ComicService.get_comics_by_category_id_new_page()">View all</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
 
 <script>
   CategoryService.init();

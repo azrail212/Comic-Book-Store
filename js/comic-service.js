@@ -45,29 +45,18 @@ var ComicService = {
       });
     },
 
-    get_comics_by_category_id_modal: function(category_id){
-    $("#category-comics").html('loading ...');
-    $.get('rest/categories/'+ category_id +'/comics', function(data) {
-      var html = "";
-      for(let i = 0; i < data.length; i++){
-        html +=
-        `<div style="border:1px solid darkgrey; padding:15px; margin:5px;">
-              <p class="fw-bolder">` + data[i].name + `</p>
-              <p class="card-text">` + data[i].description + `</p>
-        </div>`;
-      }
-      $("#category-comics").html(html);
-    });
-    $("#comicsModal").modal('show');
-  },
-
-  get_comics_by_category_id_new_page: function(category_id){
-  $("#category-comics").html('loading ...');
+  get_comics_by_category_id: function(category_id){
+    $("#comic-list").html(`<div class="spinner-grow text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <h3>Loading...</h3>`);
   $.get('rest/categories/'+ category_id +'/comics', function(data) {
     var html = "";
+
     for(let i = 0; i < data.length; i++){
       html +=
-      `<div class="col">
+      `<h2>Comics in the selected category</h2>
+        <div class="col">
         <div class="card shadow-sm">
           <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
             <title>Placeholder</title>
@@ -89,10 +78,10 @@ var ComicService = {
            </div>
           </div>
         </div>
-      </div> `;
+        </div>`;
     }
+    $("#comic-list").html(html);
   });
-  window.open("rest/categories/"+ category_id +"/comics");
 
 },
 

@@ -28,7 +28,7 @@ var CategoryService = {
                   </div>
                   <div class="btn-group" role="group">
                    <button type="button" class="btn btn-primary edit-category-button" onclick="CategoryService.get(` + data[i].id + `)">Edit</button>
-                   <button type="button" class="btn btn-success note-button" onclick="ComicService.get_comics_by_category_id_modal(`+data[i].id+`)">Manage</button>
+                   <button type="button" class="btn btn-success note-button" onclick="ComicService.get_comics_by_category_id(`+data[i].id+`)">Manage</button>
                    <button type="button" class="btn btn-danger edit-category-button" onclick="CategoryService.delete(` + data[i].id + `)">Delete</button>
                  </div>
                 </div>
