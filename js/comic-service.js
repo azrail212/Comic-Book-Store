@@ -172,7 +172,11 @@ var ComicService = {
         },
 
         error: function(XMLHttpRequest, textStatus, errorThrown) {
+<<<<<<< HEAD
            toastr.error(XMLHttpRequest.responseJSON.message);
+=======
+       alert("Status: " + textStatus); alert("Error: " + errorThrown);
+>>>>>>> 836987da12bcd0f58c0e9ece0b81612f9e0dbde1
      }
       });
     },
