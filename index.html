@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <title>Comicbook Store</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+
   <style>
     .error {
       color: red;
@@ -87,6 +89,8 @@
 
 <script src="js/comic-service.js"></script>
 <script src="js/category-service.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 
 
 
@@ -212,28 +216,46 @@
 
 
 <!-- Update comic Modal -->
-<div class="modal fade" id="updateComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+<div class="modal fade" id="updateComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="updateComicModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input id="id" type="hidden" />
-        <input id="update_name" type="text" />
-        <input id="update_description" type="textarea" />
-        <input id="update_category_id" type="text" />
-        <input id="update_price" type="number" />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary save-comic-change-button" onclick="ComicService.update()">Save changes</button>
-      </div>
+      <form id="updateComicForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateComicModalLabel">Update a comic</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input id="comic_id" type="hidden" />
+            <label for="updateName">Name</label>
+            <input id="update_comic_name" name="update_comic_name" type="text" class="form-control required" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <label for="update_description">Description</label>
+            <textarea id="update_comic_description" name="update_comic_description" class="form-control required" placeholder="Comic description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="update_choose_category">Comic category</label>
+            <script>
+            CategoryService.category_names_list();
+            </script>
+            <div id="category-names-list">
+            </div>
+            </select>
+          </div>
+        <div class="form-group">
+          <label for="updatePrice">Price</label>
+          <input id="update_price" name="update_price" type="text" class="form-control required" placeholder="Comic price">
+        </div>
     </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>
+      <button type="submit" class="btn btn-primary save-comic-change-button" onclick="ComicService.update()">Save changes</button>
+    </div>
+    </form>
   </div>
 </div>
-
+</div>
 
 <script>
   CategoryService.init();

@@ -11,6 +11,11 @@
   Flight::register('comicService', 'ComicService');
   Flight::register('categoryService', 'CategoryService');
 
+  Flight::map('error', function(Exception $ex){
+    // Handle error
+    Flight::json(['message' => $ex->getMessage()], 500);
+});
+
   require_once __DIR__.'/routes/ComicRoutes.php';
   require_once __DIR__.'/routes/CategoryRoutes.php';
 

@@ -81,20 +81,22 @@ var ComicService = {
       var added_comic = Object.fromEntries((new FormData(form)).entries());
       console.log(added_comic);
       ComicService.add(added_comic);
+      toastr.info("Adding ...");
+
     }
   });
 
 },
 
-    get: function(id){
+    get: function(id) {
       $.get('rest/comics/' + id, function(data) {
         $('.edit-comic-button').attr('disabled', true);
         console.log(data);
 
-        $("#id").val(data.id);
-        $("#update_name").val(data.comic_name);
-        $("#update_description").val(data.comic_description);
-        $("#update_category_id").val(data.comic_category_id);
+        $("#comic_id").val(data.id);
+        $("#update_comic_name").val(data.comic_name);
+        $("#update_comic_description").val(data.comic_description);
+        $("#select-category").val(data.comic_category_id);
         $("#update_price").val(data.price);
 
         $("#updateComicModal").modal("show");
@@ -118,17 +120,20 @@ var ComicService = {
             <h3>Loading...</h3>`);
             ComicService.list();
             $("#addComicModal").modal("hide");
+        toastr.success("Added !");
+
         }
       });
     },
 
-    update:function(){
+    update: function() {
       $('.save-comic-change-button').attr('disabled', true);
       var comic = {};
-      comic.comic_name = $('#update_name').val();
-      comic.comic_description = $('#update_description').val();
-      comic.comic_category_id = $('#update_category_id').val();
+      comic.comic_name = $('#update_comic_name').val();
+      comic.description = $('#update_comic_description').val();
+      comic.comic_category_id = $('#select-category').val();
       comic.price = $('#update_price').val();
+
       $.ajax({
         url: 'rest/comics/' + $('#id').val(),
         type: 'PUT',
@@ -136,20 +141,22 @@ var ComicService = {
         contentType: "application/json",
         dataType: "json",
         success: function(result) {
-            $("#updateComicModal").modal("hide");
-            $('.save-comic-change-button').attr('disabled', false);
-            $("#comic-list").html(`
-            <div class="spinner-grow text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <h3>Loading...</h3>`);
-            ComicService.list();
+          $("#updateComicModal").modal("hide");
+          $('.save-comic-change-button').attr('disabled', false);
+          $("#comic-list").html(`
+              <div class="spinner-grow text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <h3>Loading...</h3>`);
+          ComicService.list();
         }
       });
     },
 
     delete:function(id){
       $('.edit-comic-button').attr('disabled', true);
+      toastr.info("Deleting in background ...");
+
       $.ajax({
         url: 'rest/comics/' + id,
         type: 'DELETE',
@@ -159,8 +166,14 @@ var ComicService = {
               <span class="visually-hidden">Loading...</span>
             </div>
             <h3>Loading...</h3>`);
+            toastr.success("Deleted !");
+
             ComicService.list();
-        }
+        },
+
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+       alert("Status: " + textStatus); alert("Error: " + errorThrown);
+     }
       });
     },
 }
