@@ -166,7 +166,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <button type="submit" onclick="CategoryService.category_names_list()" class="btn btn-primary">Save changes</button>
         </div>
       </form>
     </div>
@@ -193,9 +193,6 @@
           </div>
           <div class="form-group">
             <label for="choose_category">Comic category</label>
-            <script>
-            CategoryService.category_names_list();
-            </script>
             <div id="category-names-list">
             </div>
             </select>
@@ -205,6 +202,15 @@
           <label for="inputPrice">Price</label>
           <input id="price" name="price" type="text" class="form-control required" placeholder="Comic price">
         </div>
+        <div class="form-group">
+            <label>Color</label>
+            <input name="color" value="white" type="hidden" class="form-control required" placeholder="Enter color">
+            <div class="form-control btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn" data-toggle="button" style="background-color:red; color:red;" onclick="ComicService.choose_color('red');">X</button>
+              <button type="button" class="btn" data-toggle="button" style="background-color:yellow; color: yellow;" onclick="ComicService.choose_color('yellow');">X</button>
+              <button type="button" class="btn" data-toggle="button" style="background-color:blue; color:blue;" onclick="ComicService.choose_color('blue');">X</button>
+            </div>
+          </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>

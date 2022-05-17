@@ -126,7 +126,8 @@ var CategoryService = {
             </div>
             <h3>Loading...</h3>`);
         CategoryService.list();
+        ComicService.get_comics_by_category_id();
       }
     });
-  },
+  }
 }
