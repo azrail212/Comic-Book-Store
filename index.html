@@ -189,10 +189,13 @@
           </div>
           <div class="form-group">
             <label for="choose_category">Comic category</label>
-            <button type="button" class="btn btn-danger" onclick="CategoryService.category_names_list()">View categories</button>
+            <script>
+            CategoryService.category_names_list();
+            </script>
             <div id="category-names-list">
             </div>
             </select>
+
           </div>
         <div class="form-group">
           <label for="inputPrice">Price</label>
