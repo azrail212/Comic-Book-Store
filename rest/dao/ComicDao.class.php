@@ -11,8 +11,8 @@ class ComicDao extends BaseDao{
     parent::__construct("comics");
   }
 
-  public function get_comics_by_category_id($category_id){
-    return $this->query("SELECT * FROM comics WHERE category_id = :category_id", ['category_id' => $category_id]);
+  public function get_comics_by_category_id($comic_category_id){
+    return $this->query("SELECT * FROM comics WHERE comic_category_id = :comic_category_id", ['comic_category_id' => $comic_category_id]);
   }
 }
 

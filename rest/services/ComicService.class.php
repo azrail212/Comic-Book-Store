@@ -11,8 +11,8 @@ class ComicService extends BaseService{
     parent::__construct(new ComicDao());
   }
 
-  public function get_comics_by_category_id($id){
-    return $this->dao->get_comics_by_category_id($id);
+  public function get_comics_by_category_id($comic_category_id){
+    return $this->dao->get_comics_by_category_id($comic_category_id);
   }
 
 }

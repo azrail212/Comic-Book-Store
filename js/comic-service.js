@@ -1,14 +1,4 @@
 var ComicService = {
-    init: function(){
-      $('#addComicForm').validate({
-        submitHandler: function(form) {
-          var comic = Object.fromEntries((new FormData(form)).entries());
-          ComicService.add(comic);
-        }
-      });
-
-      ComicService.list();
-    },
 
     list:function(){
       $.get("rest/comics", function(data) {
@@ -29,7 +19,7 @@ var ComicService = {
                   <p class="card-text">` + data[i].comic_description + `</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
-                      <p>Category: <span class="fw-bolder">` + data[i].category_id + `</span></p>
+                      <p>Category: <span class="fw-bolder">` + data[i].comic_category_id + `</span></p>
                       <p>Price: <span class="fw-bolder">` + data[i].price + '$' + `</span></p>
                     </div>
                   </div>
@@ -45,12 +35,12 @@ var ComicService = {
       });
     },
 
-  get_comics_by_category_id: function(category_id){
+  get_comics_by_category_id: function(comic_category_id){
     $("#comic-list").html(`<div class="spinner-grow text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
     <h3>Loading...</h3>`);
-  $.get('rest/categories/'+ category_id +'/comics', function(data) {
+  $.get('rest/categories/'+ comic_category_id +'/comics', function(data) {
     var html = "";
 
     for(let i = 0; i < data.length; i++){
@@ -67,7 +57,7 @@ var ComicService = {
             <p class="card-text">` + data[i].comic_description + `</p>
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <p>Category: <span class="fw-bolder">` + data[i].category_id + `</span></p>
+                <p>Category: <span class="fw-bolder">` + data[i].comic_category_id + `</span></p>
                 <p>Price: <span class="fw-bolder">` + data[i].price + '$' + `</span></p>
               </div>
             </div>
@@ -86,6 +76,14 @@ var ComicService = {
       `</div>`);
   });
 
+  $('#addComicForm').validate({
+    submitHandler: function(form) {
+      var added_comic = Object.fromEntries((new FormData(form)).entries());
+      console.log(added_comic);
+      ComicService.add(added_comic);
+    }
+  });
+
 },
 
     get: function(id){
@@ -96,7 +94,7 @@ var ComicService = {
         $("#id").val(data.id);
         $("#update_name").val(data.comic_name);
         $("#update_description").val(data.comic_description);
-        $("#update_category_id").val(data.category_id);
+        $("#update_category_id").val(data.comic_category_id);
         $("#update_price").val(data.price);
 
         $("#updateComicModal").modal("show");
@@ -127,9 +125,9 @@ var ComicService = {
     update:function(){
       $('.save-comic-change-button').attr('disabled', true);
       var comic = {};
-      comic.name = $('#update_name').val();
-      comic.description = $('#update_description').val();
-      comic.category_id = $('#update_category_id').val();
+      comic.comic_name = $('#update_name').val();
+      comic.comic_description = $('#update_description').val();
+      comic.comic_category_id = $('#update_category_id').val();
       comic.price = $('#update_price').val();
       $.ajax({
         url: 'rest/comics/' + $('#id').val(),

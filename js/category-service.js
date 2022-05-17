@@ -42,7 +42,7 @@ var CategoryService = {
     $.get("rest/categories/", function(data) {
       $("#category-names-list").html("");
 
-      var html = `<select id="select-category" name="category_id" class="form-control required">`;
+      var html = `<select id="select-category" name="comic_category_id" class="form-control required">`;
       for (let i = 0; i < data.length; i++) {
         html += `
         <option value="`+ data[i].id + `">` + data[i].name + `</option>
