@@ -46,7 +46,7 @@ var ComicService = {
     for(let i = 0; i < data.length; i++){
       html +=
       `<div class="col">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm" style="background-color:`+data[i].color+`">
           <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
             <title>Placeholder</title>
             <rect width="100%" height="100%" fill="#55595c" /><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
@@ -67,7 +67,7 @@ var ComicService = {
            </div>
           </div>
         </div>
-        </div>`;
+      </div> `;
     }
     $("#comic-list").html(
       `<div>
