@@ -3,10 +3,10 @@
 class Config {
 
   public static function DB_HOST(){
-    return Config::get_env("DB_HOST", "webprojects-do-user-11616479-0.b.db.ondigitalocean.com");
+    return Config::get_env("DB_HOST", "localhost");
   }
   public static function DB_USERNAME(){
-    return Config::get_env("DB_USERNAME", "doadmin");
+    return Config::get_env("DB_USERNAME", "comicbookstore");
   }
   public static function DB_PASSWORD(){
     return Config::get_env("DB_PASSWORD", "17110000");
@@ -15,7 +15,7 @@ class Config {
     return Config::get_env("DB_SCHEME", "comicbookstore");
   }
   public static function DB_PORT(){
-    return Config::get_env("DB_PORT", "25060");
+    return Config::get_env("DB_PORT", "3306");
   }
 
   public static function get_env($name, $default){

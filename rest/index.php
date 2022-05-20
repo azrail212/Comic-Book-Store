@@ -10,11 +10,11 @@
   //we use this method so that we don't have to call dao each time we want to use it
   Flight::register('comicService', 'ComicService');
   Flight::register('categoryService', 'CategoryService');
-
-  Flight::map('error', function(Exception $ex){
-    // Handle error
-    Flight::json(['message' => $ex->getMessage()], 500);
-});
+//
+//   Flight::map('error', function(Exception $ex){
+//     // Handle error
+//     Flight::json(['message' => $ex->getMessage()], 500);
+// });
 
   require_once __DIR__.'/routes/ComicRoutes.php';
   require_once __DIR__.'/routes/CategoryRoutes.php';
