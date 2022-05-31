@@ -73,21 +73,6 @@ var CategoryService = {
   },
 
   get: function(id) {
-    $.get('rest/categories/' + id, function(data) {
-      $('.edit-category-button').attr('disabled', true);
-      console.log(data);
-
-      $("#id").val(data.id);
-      $("#update_name").val(data.name);
-      $("#update_description").val(data.description);
-      $("#update_agegroup").val(data.agegroup);
-
-      $("#updateCategoryModal").modal("show");
-
-      $('.edit-category-button').attr('disabled', false);
-    });
-  },
-  get: function(id) {
     $.ajax({
       url: "rest/categories" + id,
       type: "GET",
@@ -128,6 +113,9 @@ var CategoryService = {
             <h3>Loading...</h3>`);
         CategoryService.list();
         $("#addCategoryModal").modal("hide");
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        toastr.error(XMLHttpRequest.responseJSON.message);
       }
     });
   },
