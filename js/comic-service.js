@@ -108,21 +108,31 @@ var ComicService = {
   },
 
   get: function(id) {
-    $.get('rest/comics/' + id, function(data) {
-      $('.edit-comic-button').attr('disabled', true);
-      console.log(data);
+    $.ajax({
+      url: "rest/comics" + id,
+        type: "GET",
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+        },
+        success: function(data) {
+          $('.edit-comic-button').attr('disabled', true);
+          console.log(data);
 
-      $("#comic_id").val(data.id);
-      $("#update_comic_name").val(data.comic_name);
-      $("#update_comic_description").val(data.comic_description);
-      $("#select-category").val(data.comic_category_id);
-      $("#update_price").val(data.price);
+          $("#comic_id").val(data.id);
+          $("#update_comic_name").val(data.comic_name);
+          $("#update_comic_description").val(data.comic_description);
+          $("#select-category").val(data.comic_category_id);
+          $("#update_price").val(data.price);
 
-      $("#updateComicModal").modal("show");
-
-      $('.edit-comic-button').attr('disabled', false);
-    });
-  },
+          $("#updateComicModal").modal("show");
+          $('.edit-comic-button').attr('disabled', false);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          toastr.error(XMLHttpRequest.responseJSON.message);
+          UserService.logout();
+        }
+      });
+    },
 
   add: function(comic) {
     $.ajax({
@@ -131,6 +141,9 @@ var ComicService = {
       data: JSON.stringify(comic),
       contentType: "application/json",
       dataType: "json",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+      },
       success: function(result) {
         $("#comic-list").html(`
             <div class="spinner-grow text-primary" role="status">
@@ -159,6 +172,9 @@ var ComicService = {
       data: JSON.stringify(comic),
       contentType: "application/json",
       dataType: "json",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+      },
       success: function(result) {
         $("#updateComicModal").modal("hide");
         $('.save-comic-change-button').attr('disabled', false);

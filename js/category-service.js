@@ -87,6 +87,28 @@ var CategoryService = {
       $('.edit-category-button').attr('disabled', false);
     });
   },
+  get: function(id) {
+    $.ajax({
+      url: "rest/categories" + id,
+      type: "GET",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+      },
+      success: function(data) {
+        $('.edit-category-button').attr('disabled', true);
+        console.log(data);
+
+        $("#id").val(data.id);
+        $("#update_name").val(data.name);
+        $("#update_description").val(data.description);
+        $("#update_agegroup").val(data.agegroup);
+
+        $("#updateCategoryModal").modal("show");
+
+        $('.edit-category-button').attr('disabled', false);
+      }
+    });
+  },
 
   add: function(category) {
     $.ajax({
@@ -95,6 +117,9 @@ var CategoryService = {
       data: JSON.stringify(category),
       contentType: "application/json",
       dataType: "json",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+      },
       success: function(result) {
         $("#category-list").html(`
             <div class="spinner-grow text-primary" role="status">
@@ -120,6 +145,9 @@ var CategoryService = {
       data: JSON.stringify(category),
       contentType: "application/json",
       dataType: "json",
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+      },
       success: function(result) {
         $("#updateCategoryModal").modal("hide");
         $('.save-category-change-button').attr('disabled', false);
