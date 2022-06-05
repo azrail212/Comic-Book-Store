@@ -2,8 +2,11 @@
 // Implementing CRUD operations, now through FlightPHP
 
  /**
- * Function to list all comics
- */
+  * @OA\Get(path="/comics", tags={"comics"}, security={{"ApiKeyAuth": {}}},
+  *         summary="Return all comics from the API. ",
+  *         @OA\Response( response=200, description="List of todos.")
+  * )
+  */
   Flight::route('GET /comics', function()
   {
     Flight::json(Flight::comicService()->get_all());

@@ -1,7 +1,10 @@
 <?php
 
  /**
- * Function to list all categories
+ * @OA\Get(path="/categories", tags={"comics"}, security={{"ApiKeyAuth": {}}},
+ *         summary="Return all comic categories from the API. ",
+ *         @OA\Response( response=200, description="List of categories.")
+ * )
  */
   Flight::route('GET /categories', function()
   {
@@ -9,13 +12,22 @@
   });
 
 /**
- * Get individual category
- */
+* @OA\Get(path="/categories/{id}", tags={"comics"}, security={{"ApiKeyAuth": {}}},
+*     @OA\Parameter(in="path", name="id", example=1, description="Id of category"),
+*     @OA\Response(response="200", description="Fetch individual category")
+* )
+*/
   Flight::route('GET /categories/@id', function($id)
   {
    Flight::json(Flight::categoryService()->get_by_id($id));
   });
 
+/**
+* @OA\Get(path="/categories/{id}/comics", tags={"comics"}, security={{"ApiKeyAuth": {}}},
+*     @OA\Parameter(in="path", name="id", example=1, description="List comics"),
+*     @OA\Response(response="200", description="Fetch category's comics")
+* )
+*/
   Flight::route('GET /categories/@id/comics', function($id){
     Flight::json(Flight::comicService()->get_comics_by_category_id($id));
   });
