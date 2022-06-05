@@ -109,13 +109,13 @@ var ComicService = {
 
   get: function(id) {
     $.ajax({
-      url: "rest/comics" + id,
+      url: "rest/comics/" + id,
         type: "GET",
         beforeSend: function(xhr) {
           xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
         },
         success: function(data) {
-          $('.edit-comic-button').attr('disabled', true);
+
           console.log(data);
 
           $("#comic_id").val(data.id);
@@ -124,8 +124,8 @@ var ComicService = {
           $("#select-category").val(data.comic_category_id);
           $("#update_price").val(data.price);
 
-          $("#updateComicModal").modal("show");
-          $('.edit-comic-button').attr('disabled', false);
+          $("#updateComicModal").modal("toggle");
+
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
           toastr.error(XMLHttpRequest.responseJSON.message);
@@ -153,7 +153,6 @@ var ComicService = {
         ComicService.list();
         $("#addComicModal").modal("hide");
         toastr.success("Added !");
-
       }
     });
   },

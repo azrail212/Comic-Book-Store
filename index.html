@@ -193,11 +193,11 @@
             </select>
 
           </div>
-        <div class="form-group">
-          <label for="inputPrice">Price</label>
-          <input id="price" name="price" type="text" class="form-control required" placeholder="Comic price">
-        </div>
-        <div class="form-group">
+          <div class="form-group">
+            <label for="inputPrice">Price</label>
+            <input id="price" name="price" type="text" class="form-control required" placeholder="Comic price">
+          </div>
+          <div class="form-group">
             <label>Color</label>
             <input name="color" value="white" type="hidden" class="form-control required" placeholder="Enter color">
             <div class="form-control btn-group" role="group" aria-label="Basic example">
@@ -206,18 +206,19 @@
               <button type="button" class="btn" data-toggle="button" style="background-color:blue; color:blue;" onclick="ComicService.choose_color('blue');">X</button>
             </div>
           </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>
-      <button type="submit" class="btn btn-primary">Save changes</button>
-    </div>
-    </form>
   </div>
 </div>
 
 
 <!-- Update comic Modal -->
-<div class="modal fade" id="updateComicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="updateComicModal">
   <div class="modal-dialog">
     <div class="modal-content">
       <form id="updateComicForm">
@@ -238,31 +239,31 @@
           <div class="form-group">
             <label for="update_choose_category">Comic category</label>
             <script>
-            CategoryService.category_names_list();
+              CategoryService.category_names_list();
             </script>
             <div id="category-names-list">
             </div>
             </select>
           </div>
-        <div class="form-group">
-          <label for="updatePrice">Price</label>
-          <input id="update_price" name="update_price" type="text" class="form-control required" placeholder="Comic price">
+          <div class="form-group">
+            <label for="updatePrice">Price</label>
+            <input id="update_price" name="update_price" type="text" class="form-control required" placeholder="Comic price">
+          </div>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>
+          <button type="submit" class="btn btn-primary save-comic-change-button" onclick="ComicService.update()">Save changes</button>
+        </div>
+      </form>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Discard changes</button>
-      <button type="submit" class="btn btn-primary save-comic-change-button" onclick="ComicService.update()">Save changes</button>
-    </div>
-    </form>
   </div>
-</div>
 </div>
 
 <script>
   var token = localStorage.getItem("token");
-  if (token){
+  if (token) {
     CategoryService.init();
-  }else{
+  } else {
     window.location.replace("login.html");
   }
 </script>

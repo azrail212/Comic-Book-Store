@@ -74,7 +74,7 @@ var CategoryService = {
 
   get: function(id) {
     $.ajax({
-      url: "rest/categories" + id,
+      url: "rest/categories/" + id,
       type: "GET",
       beforeSend: function(xhr) {
         xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
