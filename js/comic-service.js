@@ -23,7 +23,7 @@ var ComicService = {
                    <p class="card-text">` + data[i].comic_description + `</p>
                    <div class="d-flex justify-content-between align-items-center">
                      <div>
-                       <p>Category: <span class="fw-bolder">` + data[i].comic_category_id + `</span></p>
+                       <p>Category ID: <span class="fw-bolder">` + data[i].comic_category_id + `</span></p>
                        <p>Price: <span class="fw-bolder">` + data[i].price + '$' + `</span></p>
                      </div>
                    </div>
@@ -72,7 +72,7 @@ var ComicService = {
               <p class="card-text">` + data[i].comic_description + `</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div>
-                  <p>Category: <span class="fw-bolder">` + data[i].comic_category_id + `</span></p>
+                  <p>Category ID: <span class="fw-bolder">` + data[i].comic_category_id + `</span></p>
                   <p>Price: <span class="fw-bolder">` + data[i].price + '$' + `</span></p>
                 </div>
               </div>

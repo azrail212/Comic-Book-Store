@@ -25,6 +25,7 @@ var CategoryService = {
               <div class="col">
                 <div class="card-body" style="border: 1px solid darkgrey">
                   <p class="card-text">Name: ` + data[i].name + `</p>
+                  <p class="card-text">ID: ` + data[i].id + `</p>
                   <p class="card-text">Description: ` + data[i].description + `</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div>
